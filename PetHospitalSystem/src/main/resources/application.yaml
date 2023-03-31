@@ -1,0 +1,16 @@
+# 全局配置
+spring:
+  profiles:
+    active: test
+  servlet:
+    multipart:
+      max-file-size: 20MB  #单次上传文件最大不超过20MB
+      max-request-size: 100MB  #文件总上传大小不超过100MB
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+# 修改tomcat默认端口
+server:
+  port: 8084
