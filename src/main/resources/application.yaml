@@ -13,4 +13,4 @@ spring:
 
 # 修改tomcat默认端口
 server:
-  port: 80
+  port: 8084
