@@ -59,7 +59,7 @@ public class PatientController {
     }
 
     // 根据病例ID查询接口
-    @GetMapping("patient/searchById")
+    @GetMapping("/patient/searchById")
     public MessageBean<?> getPatientById(@RequestParam int patientId) {
         Patient data = patientService.selectById(patientId);
         return new MessageBean<>(MessageCodeEnum.OK, data);

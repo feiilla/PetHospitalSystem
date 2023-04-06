@@ -7,7 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface QuestionMapper {
-    @Insert("INSERT INTO tb_question(category, content, answer, score) VALUES (#{category}, #{content}, #{answer}, #{score})")
+    @Insert("INSERT INTO tb_question(category, content, option_a, option_b, option_c, option_d, answer, score) " +
+            "VALUES (#{category}, #{content}, #{optionA}, #{optionB}, #{optionC}, #{optionD}, #{answer}, #{score})")
     @SelectKey(statement = "select last_insert_id()", keyProperty = "questionId", before = false, resultType = int.class)
     void addQuestion(Question question);
 
@@ -29,7 +30,7 @@ public interface QuestionMapper {
     @Select("SELECT * FROM tb_question WHERE category = #{category}")
     List<Question> selectByCategory(String category);
 
-    @Update("UPDATE tb_question SET category = #{category}, content = #{content}, answer = #{answer}, score = #{score} WHERE question_id = #{questionId}")
+    @Update("UPDATE tb_question SET category = #{category}, content = #{content}, option_a = #{optionA}, option_b = #{optionB}, option_c = #{optionC}, option_d = #{optionD}, answer = #{answer}, score = #{score} WHERE question_id = #{questionId}")
     void updateById(Question question);
 
     @Select("SELECT * FROM tb_question WHERE question_id = #{questionId}")
