@@ -1,6 +1,7 @@
 package com.example.pethospital.service.impl;
 
 import com.example.pethospital.mapper.QuestionMapper;
+import com.example.pethospital.pojo.Answer;
 import com.example.pethospital.pojo.Question;
 import com.example.pethospital.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 @Slf4j
@@ -80,11 +80,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public int calculateScore(List<Map<String, Object>> answers) {
+    public int calculateScore(List<Answer> answers) {
         int score = 0;
-        for (Map<String, Object> answer : answers) {
-            int questionId = (int) answer.get("questionId");
-            String userAnswer = (String) answer.get("userAnswer");
+        for (Answer answer : answers) {
+            int questionId = answer.getQuestionId();
+            String userAnswer = answer.getUserAnswer();
             Question question = questionMapper.selectById(questionId);
             if (question != null && question.getAnswer().equals(userAnswer)) {
                 score += question.getScore();

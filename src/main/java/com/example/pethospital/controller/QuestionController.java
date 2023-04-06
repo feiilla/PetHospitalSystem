@@ -3,6 +3,7 @@ package com.example.pethospital.controller;
 
 import com.example.pethospital.message.MessageBean;
 import com.example.pethospital.message.MessageCodeEnum;
+import com.example.pethospital.pojo.Answer;
 import com.example.pethospital.pojo.Question;
 import com.example.pethospital.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @Slf4j
@@ -80,7 +80,7 @@ public class QuestionController {
 
     // 自动计分接口（传入包含问题id和用户答案的List）
     @PostMapping("/question/score")
-    public MessageBean<?> calculateScore(@RequestBody List<Map<String, Object>> answers) {
+    public MessageBean<?> calculateScore(@RequestBody List<Answer> answers) {
         int data = questionService.calculateScore(answers);
         return new MessageBean<>(MessageCodeEnum.OK, data);
     }
