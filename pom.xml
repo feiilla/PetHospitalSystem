@@ -11,7 +11,7 @@
     <groupId>com.example</groupId>
     <artifactId>PetHospital</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>PetHospital</name>
     <description>PetHospital</description>
     <properties>
