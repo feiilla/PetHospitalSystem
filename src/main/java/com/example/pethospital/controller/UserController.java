@@ -2,6 +2,8 @@ package com.example.pethospital.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.pethospital.message.MessageBean;
+import com.example.pethospital.message.MessageCodeEnum;
 import com.example.pethospital.pojo.User;
 import com.example.pethospital.service.UserService;
 import com.example.pethospital.util.JWTUtil;
@@ -40,51 +42,49 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("userName") String userName, @RequestParam("password") String password){
-        JSONObject json = new JSONObject();
+    public MessageBean<?> login(@RequestParam("userName") String userName, @RequestParam("password") String password){
+        JSONObject data = new JSONObject();
         User user = userService.login(userName, password);
         if(user != null){
             String token = JWTUtil.generateToken(user);
-            json.put("code", 1);
-            json.put("msg", "success");
-            json.put("Authorization", token);
+            String msg = "Success";
+            data.put("Authorization", token);
+            data.put("AuthorityValue", user.getAuthority());
+            return new MessageBean<>(MessageCodeEnum.OK, data, msg);
         }
         else{
-            json.put("code", -1);
-            json.put("msg", "fail");
+            String msg = "用户名或密码错误！";
+            return new MessageBean<>(MessageCodeEnum.PASSWORD_WRONG, msg);
         }
-        return JSON.toJSONString(json);
     }
 
     @PostMapping("/register")
-    public String register(@RequestParam String userName, @RequestParam String password, @RequestParam String gender, @RequestParam int age){
+    public MessageBean<?> register(@RequestParam String userName, @RequestParam String password, @RequestParam String gender, @RequestParam int age){
         JSONObject json = new JSONObject();
         int ok = userService.register(userName, password, gender, age);
         if(ok == 0) {
-            json.put("code", -1);
-            json.put("msg", "username exists");
+            String msg = "username exists";
+            return new MessageBean<>(MessageCodeEnum.NO, msg);
         }
         else{
-            json.put("code", 1);
-            json.put("msg", "注册成功");
+            String msg = "注册成功";
+            return new MessageBean<>(MessageCodeEnum.OK, msg);
         }
-        return JSON.toJSONString(json);
     }
 
     @PostMapping("/changePassword")
-    public String modifyPassword(@RequestParam String originPassword, @RequestParam String newPassword){
+    public MessageBean<?> modifyPassword(@RequestParam String originPassword, @RequestParam String newPassword){
         JSONObject json = new JSONObject();
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.login(userName, originPassword);
         if(user != null){
             userService.updatePassword(userName, newPassword);
-            json.put("code", 1);
-            json.put("msg", "修改成功");
+            String msg = "修改成功";
+            return new MessageBean<>(MessageCodeEnum.OK, msg);
         }
         else{
-            json.put("code", -1);
-            json.put("msg", "wrong password!");
+            String msg = "wrong password!";
+            return new MessageBean<>(MessageCodeEnum.PASSWORD_WRONG, msg);
         }
-        return JSON.toJSONString(json);
     }
 }
