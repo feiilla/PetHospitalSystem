@@ -31,11 +31,11 @@ public class FileUploadUtil {
     }
 
     /**
-     * 默认大小 50M
-     * 视频大小上限 300M
+     * 默认大小 20M
+     * 视频大小上限 100M
      */
-    public static final long DEFAULT_MAX_SIZE = 50L * 1024 * 1024;
-    public static final long VIDEO_MAX_SIZE = 300L * 1024 * 1024;
+    public static final long DEFAULT_MAX_SIZE = 20L * 1024 * 1024;
+    public static final long VIDEO_MAX_SIZE = 100L * 1024 * 1024;
 
     /**
      * 默认的文件名最大长度 100

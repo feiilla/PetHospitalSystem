@@ -2,6 +2,8 @@ package com.example.pethospital.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.pethospital.message.MessageBean;
+import com.example.pethospital.message.MessageCodeEnum;
 import com.example.pethospital.pojo.HospitalFile;
 import com.example.pethospital.service.FileService;
 import com.example.pethospital.util.FileUploadUtil;
@@ -25,8 +27,8 @@ public class FileController {
     FileService fileService;
 
     @PostMapping("/upload")
-    public String saveNewFile(@RequestParam(value = "file", required = false) MultipartFile file){
-        JSONObject json = new JSONObject();
+    public MessageBean<?> saveNewFile(@RequestParam(value = "file", required = false) MultipartFile file){
+        JSONObject data = new JSONObject();
         try{
             FileUploadUtil.assertAllowed(file);
             String filePath = System.getProperty("user.dir") + File.separator + "petHospitalFiles" + File.separator;
@@ -47,9 +49,8 @@ public class FileController {
                 newFile.getParentFile().mkdirs();
             }
             if(newFile.exists()){
-                json.put("code", -1);
-                json.put("msg", "file already exists");
-                return JSON.toJSONString(json);
+                String msg = "file already exists";
+                return new MessageBean<>(MessageCodeEnum.NO, msg);
             }
             Date date = new Date();
             Timestamp timestamp = new Timestamp(date.getTime());
@@ -57,43 +58,38 @@ public class FileController {
 
             int ok = fileService.saveFile(filePath, file.getOriginalFilename(), timestamp, (int)file.getSize());
             if(ok == 1){
-                json.put("code", 1);
-                json.put("msg", "上传成功");
-                json.put("path", filePath);
+                String msg = "上传成功";
+                data.put("path", filePath);
+                return new MessageBean<>(MessageCodeEnum.OK, data, msg);
             }
             else{
-                json.put("code", -1);
-                json.put("msg", "上传失败");
+                String msg = "上传失败";
                 newFile.delete();
+                return new MessageBean<>(MessageCodeEnum.NO, msg);
             }
         }
         catch (Exception e){
             e.printStackTrace();
-            json.put("code", -1);
-            json.put("msg", "IOException");
         }
-        return JSON.toJSONString(json);
+        return new MessageBean<>(MessageCodeEnum.ERROR, "IOException");
     }
 
     @PostMapping("/delete")
-    public String deleteFile(@RequestParam String path){
+    public MessageBean<?> deleteFile(@RequestParam String path){
         JSONObject json = new JSONObject();
         HospitalFile hf = fileService.selectFileByPath(path);
         File file = new File(path);
         if(hf == null || !file.exists() || !file.isFile()){
-            json.put("code", -1);
-            json.put("msg", "file not exists");
-            return JSON.toJSONString(json);
+            String msg = "file not exists";
+            return new MessageBean<>(MessageCodeEnum.NO, msg);
         }
         boolean ok = file.delete();
         if(!ok){
-            json.put("code", -1);
-            json.put("msg", "fail to delete file");
-            return JSON.toJSONString(json);
+            String msg = "fail to delete file";
+            return new MessageBean<>(MessageCodeEnum.ERROR, msg);
         }
         fileService.deleteFile(path);
-        json.put("code", 1);
-        json.put("msg", "delete success");
-        return JSON.toJSONString(json);
+        String msg = "delete success";
+        return new MessageBean<>(MessageCodeEnum.OK, msg);
     }
 }
