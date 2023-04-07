@@ -29,7 +29,8 @@ public class QuestionController {
     @GetMapping("/question/add")
     public MessageBean<?> addNewQuestion(@RequestBody Question question) {
         questionService.addQuestion(question);
-        return new MessageBean<>(MessageCodeEnum.OK, "添加试题成功");
+        int data = question.getQuestionId();
+        return new MessageBean<>(MessageCodeEnum.OK, data, "添加试题成功");
     }
 
     // 根据试题id删除试题接口

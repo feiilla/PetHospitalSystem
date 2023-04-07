@@ -27,7 +27,8 @@ public class PatientController {
     @PostMapping("/patient/add")
     public MessageBean<?> addPatient(@RequestBody Patient patient) {
         patientService.addPatient(patient);
-        return new MessageBean<>(MessageCodeEnum.OK, "添加病例成功");
+        int data = patient.getPatientId();
+        return new MessageBean<>(MessageCodeEnum.OK, data, "添加病例成功");
     }
 
     // 根据病例ID删除病例接口
