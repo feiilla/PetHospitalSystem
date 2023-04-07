@@ -87,4 +87,12 @@ public class UserController {
             return new MessageBean<>(MessageCodeEnum.PASSWORD_WRONG, msg);
         }
     }
+
+    @PostMapping("/updateInfo")
+    public MessageBean<?> updateInformation(@RequestParam int id, @RequestParam String userName, @RequestParam int authority, @RequestParam String gender, @RequestParam int age){
+        userService.updateUserInformation(id, userName, authority, gender, age);
+        User user = userService.getUserById(id);
+        String msg = "修改成功！";
+        return new MessageBean<>(MessageCodeEnum.OK, user, msg);
+    }
 }

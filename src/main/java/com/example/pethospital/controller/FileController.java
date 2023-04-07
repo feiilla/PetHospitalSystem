@@ -9,15 +9,14 @@ import com.example.pethospital.service.FileService;
 import com.example.pethospital.util.FileUploadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/file")
@@ -27,7 +26,7 @@ public class FileController {
     FileService fileService;
 
     @PostMapping("/upload")
-    public MessageBean<?> saveNewFile(@RequestParam(value = "file", required = false) MultipartFile file){
+    public MessageBean<?> saveNewFile(@RequestPart(value = "file", required = false) MultipartFile file){
         JSONObject data = new JSONObject();
         try{
             FileUploadUtil.assertAllowed(file);
@@ -72,6 +71,16 @@ public class FileController {
             e.printStackTrace();
         }
         return new MessageBean<>(MessageCodeEnum.ERROR, "IOException");
+    }
+
+    @PostMapping("/uploadMulti")
+    public MessageBean<?>[] saveNewFiles(@RequestPart MultipartFile[] files){
+        MessageBean<?>[] res = new MessageBean[files.length];
+        for(int i=0; i<files.length; i++){
+            MultipartFile file = files[i];
+            res[i] = saveNewFile(file);
+        }
+        return res;
     }
 
     @PostMapping("/delete")

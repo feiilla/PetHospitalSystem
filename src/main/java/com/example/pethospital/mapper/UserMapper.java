@@ -36,4 +36,7 @@ public interface UserMapper {
 
     @Select("select * from tb_user limit #{page},#{size}")
     List<User> selectUserByPage(int page, int size);
+
+    @Update("update tb_user set user_name = #{userName}, authority = #{authority}, gender = #{gender}, age = #{age} where user_id = #{id}")
+    void updateUserInformation(int id, String userName, int authority, String gender, int age);
 }
