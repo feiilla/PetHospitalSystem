@@ -9,5 +9,7 @@ public interface UserService {
     int register(String userName, String password, String gender, int age);
     List<User> getAllUser();
     List<User> getUserByPage(int page, int size);
+    User getUserById(int id);
     void updatePassword(String userName, String password);
+    void updateUserInformation(int id, String userName, int authority, String gender, int age);
 }
