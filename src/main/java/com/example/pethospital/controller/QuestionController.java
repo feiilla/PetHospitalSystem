@@ -26,7 +26,7 @@ public class QuestionController {
     }
 
     // 添加试题接口
-    @GetMapping("/question/add")
+    @PostMapping("/question/add")
     public MessageBean<?> addNewQuestion(@RequestBody Question question) {
         questionService.addQuestion(question);
         int data = question.getQuestionId();
