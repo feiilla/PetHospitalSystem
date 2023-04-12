@@ -20,7 +20,7 @@ public interface TestItemMapper {
     @Update("UPDATE tb_test_item SET test_item_name = #{testItemName}, test_item_description = #{testItemDescription}, test_item_price = #{testItemPrice} WHERE test_item_id = #{testItemId}")
     void updateTestItem(TestItem testItem);
 
-    @Select("SELECT * FROM tb_test_item WHERE test_item_name = #{testItemName}")
+    @Select("SELECT * FROM tb_test_item WHERE test_Item_Name LIKE CONCAT('%',#{testItemName},'%')")
     List<TestItem> selectByName(String testItemName);
 
     @Select("SELECT * FROM tb_test_item WHERE test_item_id = #{testItemId}")
