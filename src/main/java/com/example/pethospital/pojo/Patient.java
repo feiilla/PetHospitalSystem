@@ -13,7 +13,17 @@ import lombok.NoArgsConstructor;
 public class Patient {
     private int patientId;  // 病例ID
     private String name;    // 病例名称
+    private String owner;   // 主人
+    private String address;    // 地址
+    private String phone;   // 电话
+    private String petName; // 宠物名
+    private String type;    // 种类
+    private String variety; // 品种*/
     private String category;    // 病种类别
+    private int age;    // 年龄
+    private char sex;   // 性别
+    private String immunity;    // 免疫
+    private String weight;  // 体重
     private String state;   // 接诊状态
     private String diagnoseProcess; // 诊疗过程和方法
     private String result;  // 诊断结果

@@ -2,6 +2,7 @@ package com.example.pethospital.service;
 
 import com.example.pethospital.pojo.Answer;
 import com.example.pethospital.pojo.Question;
+import com.example.pethospital.pojo.Score;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface QuestionService {
     List<Question> selectByCategory(String category);
     Question selectById(int questionId);
     List<Question> generatePaper(List<String> categories);
-    int calculateScore(List<Answer> answers);
+    List<Score> calculateScore(List<Answer> answers);
 }

@@ -3,6 +3,7 @@ package com.example.pethospital.service.impl;
 import com.example.pethospital.mapper.QuestionMapper;
 import com.example.pethospital.pojo.Answer;
 import com.example.pethospital.pojo.Question;
+import com.example.pethospital.pojo.Score;
 import com.example.pethospital.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -80,16 +81,25 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public int calculateScore(List<Answer> answers) {
-        int score = 0;
+    public List<Score> calculateScore(List<Answer> answers) {
+        List<Score> scoreList = new ArrayList<>();
+
         for (Answer answer : answers) {
+            boolean result = false;
+            int point = 0;
+
             int questionId = answer.getQuestionId();
             String userAnswer = answer.getUserAnswer();
             Question question = questionMapper.selectById(questionId);
+
             if (question != null && question.getAnswer().equals(userAnswer)) {
-                score += question.getScore();
+                result = true;
+                point = 5;
             }
+
+            Score score = new Score(questionId, result, point);
+            scoreList.add(score);
         }
-        return score;
+        return scoreList;
     }
 }
