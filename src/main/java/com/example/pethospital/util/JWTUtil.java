@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JWTUtil {
-    private static final int EXPIRATION_TIME = 3600 * 1000;
+    private static final int EXPIRATION_TIME = 12 * 3600 * 1000;
     private static final String SECRET = "petHospital";
 
     public static String generateToken(User user){
