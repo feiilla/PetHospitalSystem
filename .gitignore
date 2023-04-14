@@ -93,6 +93,4 @@ node_modules
 
 *.gz
 
-# saved files
-petHospitalFiles/
-
+/petHospitalFiles/

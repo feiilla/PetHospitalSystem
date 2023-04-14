@@ -46,7 +46,7 @@ public class TestItemController {
 
     // 根据化验项目名称查询接口
     @GetMapping("/testItem/searchByName")
-    public MessageBean<List<TestItem>> getTestItemsByName(@RequestParam String testItemName) {
+    public MessageBean<?> getTestItemsByName(@RequestParam String testItemName) {
         List<TestItem> data = testItemService.getTestItemsByName(testItemName);
         return new MessageBean<>(MessageCodeEnum.OK, data);
     }
